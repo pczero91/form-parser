@@ -42,15 +42,15 @@ function multipartFormData(data, input, callback) {
             bytes = chunk.subarray(cursor, cursor + chunk.subarray(cursor).indexOf(input.boundary));
             cursor += chunk.subarray(cursor).indexOf(input.boundary) + input.boundary.length;
             content_read = false;
-            if (type !== '') {
-                callback(bytes, file, type);
+            if (bytes.length > 0) {
+                callback(bytes, file, type, name);
             }
         }
 
         if (content_read) {
             bytes = chunk.subarray(cursor, chunk.length - input.boundary.length);
             input.lastPart = chunk.subarray(chunk.length - input.boundary.length);
-            callback(bytes, file, type);
+            callback(bytes, file, type, name);
             break;
         }
 
