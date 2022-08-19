@@ -1,7 +1,5 @@
 import { IncomingMessage } from "http";
 
-export = FormParser;
-
 interface InputData {
     boundary: string,
     lastPart: Buffer,
@@ -12,7 +10,7 @@ interface InputData {
     readContent?: boolean
 }
 
-declare class FormParser {
+export declare class FormParser {
     private _contentType: string;
     private _totalLength: string;    
     private _input: InputData | {};
