@@ -1,27 +1,27 @@
 class FormParser {
 
-    #contentType;
-    #totalLength;    
-    #input = {};
+    _contentType;
+    _totalLength;    
+    _input = {};
 
     constructor(req) {
         let match;
-        this.#totalLength = req.headers['content-length'];
-        this.#contentType = (req.headers['content-type']) ? req.headers['content-type'] : 'application/x-www-form-urlencoded';
+        this._totalLength = req.headers['content-length'];
+        this._contentType = (req.headers['content-type']) ? req.headers['content-type'] : 'application/x-www-form-urlencoded';
 
-        match = this.#contentType.match(/multipart\/form-data; boundary=(?<boundary>[\w\W]+)/);
+        match = this._contentType.match(/multipart\/form-data; boundary=(?<boundary>[\w\W]+)/);
         if (match) {
-            this.#input.boundary = '--' + match.groups.boundary;
-            this.#input.lastPart = Buffer.from({length:0});
+            this._input.boundary = '--' + match.groups.boundary;
+            this._input.lastPart = Buffer.from({length:0});
         }
     }
 
     get totalLength() {
-        return this.#totalLength;
+        return this._totalLength;
     }
 
     getData(data, callback) {
-        this.#input = multipartFormData(data, this.#input, callback);
+        this._input = multipartFormData(data, this._input, callback);
     }
 }
 
